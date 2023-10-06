@@ -1,16 +1,25 @@
-const axios = require("axios");
+// const axios = require("axios");
 
 const searchField = document.querySelector('input[name="search"]');
 const dropdownList = document.querySelector("#dropdown-list");
 
 async function searchAddresses(searchQuery) {
-  const response = await axios.get("api.bhr.fyi/api/address/search/", {
-    params: {
-      search: searchQuery,
-    },
-  });
+  try {
+    const response = await axios.get(
+      "https://api.bhr.fyi/api/address/search/",
+      {
+        params: {
+          search: searchQuery,
+        },
+      }
+    );
 
-  return response.data.results;
+    console.log(response.data.data.results)
+
+    return response.data.data.results;
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 // Update the dropdown list with the list of addresses.
@@ -35,16 +44,19 @@ searchField.addEventListener("input", async (event) => {
   updateDropdownList(addresses);
 });
 
+// async function fetchData(searchQuery) {
+//   const addresses = await searchAddresses(searchQuery);
+//   console.log(addresses)
 
-// async function fetchData() {
-//   try {
-//     const response = await axios.get(
-//       "https://api.bhr.fyi/api/address/search/?search=123"
-//     );
-//     console.log(response.data.data.results[0].displayAddress);
-//   } catch (error) {
-//     console.error("Error:", error);
-//   }
+//   // updateDropdownList(addresses);
+// //   try {
+// //     const response = await axios.get(
+// //       "https://api.bhr.fyi/api/address/search/?search=123"
+// //     );
+// //     console.log(response.data.data.results[0].displayAddress);
+// //   } catch (error) {
+// //     console.error("Error:", error);
+// //   }
 // }
 
-// fetchData();
+// fetchData("123");
